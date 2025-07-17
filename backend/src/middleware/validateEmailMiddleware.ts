@@ -3,7 +3,7 @@ import { HandleResponse } from "../utils/server/handleResponse";
 import { UserResponses } from "../utils/enuns/serverResponses";
 import { validateEmail } from "../utils/server/validators";
 
-export function ValidateEmail(req: Request, res: Response, next: NextFunction) {
+export function ValidateEmailMiddleware(req: Request, res: Response, next: NextFunction) {
     try {
         const data = req.body;
         const result = validateEmail(data.email);

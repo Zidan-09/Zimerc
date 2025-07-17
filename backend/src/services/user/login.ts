@@ -9,7 +9,7 @@ export async function LoginUser(data: Login) {
         const [userdata] = await db.execute<RowDataPacket[]>('SELECT * FROM user WHERE email = ?', [data.email]);
 
         if (userdata.length == 0) {
-            return UserResponses.InvalidCredentials;
+            return UserResponses.InvalidEmail;
         }
 
         const result = await Security.compare(data.password, userdata[0].password);

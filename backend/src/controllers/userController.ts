@@ -14,9 +14,9 @@ export const UserController = {
 
             if (result) {
                 HandleResponse.response(201, UserResponses.UserCreated, null, res);
+            } else {
+                HandleResponse.response(400, 'Não criou o usuário', null, res);
             }
-
-            HandleResponse.response(400, 'Não criou o usuário', null, res);
 
         } catch (err) {
             console.error(err);
@@ -31,9 +31,9 @@ export const UserController = {
 
             if (result) {
                 HandleResponse.response(200, UserResponses.UserLoggedIn, result, res);
+            } else {
+                HandleResponse.response(400, UserResponses.InvalidPassword, null, res);
             }
-
-            HandleResponse.response(400, 'Não fez login', null, res);
 
         } catch (err) {
             console.error(err);
