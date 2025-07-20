@@ -21,7 +21,8 @@ enum UserResponses {
   InvalidPassword = 'invalid_password',
   EmailNotRegistered = 'email_not_registered',
   InvalidEmail = 'invalid_email',
-  UserAlreadyExists = 'user_already_exists'
+  UserAlreadyExists = 'user_already_exists',
+  UserCreationFailed = 'user_creation_failed',
 }
 
 

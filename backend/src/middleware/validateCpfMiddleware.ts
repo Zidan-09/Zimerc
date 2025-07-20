@@ -1,13 +1,13 @@
 import { Request, Response, NextFunction } from 'express';
-import { Register } from '../models/user';
 import { RegisterValidators } from "../utils/server/validators";
 import { UserResponses } from '../utils/enuns/serverResponses';
 import { HandleResponse } from '../utils/server/handleResponse';
+import { RegisterData } from '../models/register';
 
-export async function ValidateCPFMiddleware(req: Request<{}, {}, Register>, res: Response, next: NextFunction) {
+export async function ValidateCPFMiddleware(req: Request<{}, {}, RegisterData>, res: Response, next: NextFunction) {
     try {
-        const data = req.body;
-        const result = await RegisterValidators.validateCpf(data.cpf);
+        const { user } = req.body;
+        const result = await RegisterValidators.validateCpf(user.cpf);
 
         if (!result) {
             return HandleResponse.response(400, UserResponses.CPFInvalid, null, res);

@@ -1,6 +1,7 @@
-interface Register {
+interface User {
     name: string;
     cpf: string;
+    dob: string;
     email: string;
     password: string;
     user_type: string;
@@ -12,4 +13,4 @@ interface Login {
     password: string;
 }
 
-export { Register, Login }
+export { User, Login }

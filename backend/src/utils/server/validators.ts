@@ -1,9 +1,9 @@
-import { Register } from "../../models/user";
+import { User } from "../../models/user";
 import { db } from "../../database/mysql";
 import { RowDataPacket } from 'mysql2';
 
 const RegisterValidators = {
-    async registerValidator(data: Register) {
+    async registerValidator(data: User) {
         const sql: string = 'SELECT * FROM user WHERE cpf = ?'
         try {
             const [query] = await db.execute<RowDataPacket[]>(sql, [data.cpf]);

@@ -5,10 +5,9 @@ import { validateEmail } from "../utils/server/validators";
 
 export function ValidateEmailMiddleware(req: Request, res: Response, next: NextFunction) {
     try {
-        const data = req.body;
-        const result = validateEmail(data.email);
+        const email: string = req.body.email || req.body.user?.email;
 
-        if (!result) {
+        if (!email || !validateEmail(email.trim())) {
             return HandleResponse.response(400, UserResponses.InvalidEmail, null, res);
         }
 
