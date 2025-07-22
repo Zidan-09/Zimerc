@@ -7,33 +7,48 @@ import { UserResponses } from '../utils/enuns/serverResponses';
 import { UserType } from '../utils/enuns/userTypes';
 import { RegisterCompany } from '../services/company/registerCompany';
 import { RegisterData } from '../models/register';
+import { changeIdAccount } from '../utils/company/changeIdAccount';
+import { db } from '../database/mysql';
 
 export const UserController = {
     async register(req: Request<{}, {}, RegisterData>, res: Response) {
+        const connection = await db.getConnection();
+        
         try {
+            await connection.beginTransaction();
+
             const { user, company } = req.body;
 
-            let created = false;
+            const userId = await RegisterUser(user, connection);
 
-            const userCreated = await RegisterUser(user);
-
-            if (userCreated) {
-                if (user.user_type === UserType.OWNER) {
-                    const companyCreated = await RegisterCompany(company);
-                    created = !!companyCreated;
-                } else {
-                    created = true;
-                }
+            if (!userId) {
+                throw new Error(UserResponses.UserCreationFailed);
             }
 
-        const statusCode = created ? 201 : 400;
-        const responseCode = created ? UserResponses.UserCreated : UserResponses.UserCreationFailed;
+            if (user.user_type === UserType.OWNER) {
+                const companyId = await RegisterCompany(company, connection);
 
-        return HandleResponse.response(statusCode, responseCode, null, res);
+                if (!companyId) {
+                    throw new Error(UserResponses.CompanyCreationFailed)
+                }
+
+                const updated = await changeIdAccount(companyId, userId, connection)
+                
+                if (!updated) {
+                    throw new Error(UserResponses.LinkUserToCompanyFailed)
+                }
+                
+            }
+
+            await connection.commit();
+            return HandleResponse.response(201, UserResponses.UserCreated, null, res);
 
         } catch (err) {
             console.error(err);
             HandleResponse.error(res);
+
+        } finally {
+            connection.release();
         }
     },
 
@@ -43,7 +58,7 @@ export const UserController = {
             const result = await LoginUser(data);
 
             if (result) {
-                HandleResponse.response(200, UserResponses.UserLoggedIn, result, res);
+                HandleResponse.response(200, UserResponses.UserLoggedIn, null, res);
             } else {
                 HandleResponse.response(400, UserResponses.InvalidPassword, null, res);
             }

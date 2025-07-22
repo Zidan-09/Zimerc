@@ -23,6 +23,8 @@ enum UserResponses {
   InvalidEmail = 'invalid_email',
   UserAlreadyExists = 'user_already_exists',
   UserCreationFailed = 'user_creation_failed',
+  CompanyCreationFailed = 'company_creation_failed',
+  LinkUserToCompanyFailed = 'link_user_to_company_failed',
 }
 
 

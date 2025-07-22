@@ -5,17 +5,16 @@
         "dob": "1980-07-08",
         "email": "fulano@email.com",
         "password": "fulano123",
-        "user_type": "AMBULANT",
-        "company_id": 1
+        "user_type": "OWNER"
     },
     "company": {
         "name": "Empresa",
         "cnpj": "12345678909875",
         "contact": "1234567890",
-        "country": "Brasil",
-        "state": "Piauí",
-        "city": "Parnaíba",
-        "street": "Avenida Pinheiro Machado",
+        "country": "brasil",
+        "state": "piaui",
+        "city": "parnaiba",
+        "street": "avenida pinheiro machado",
         "number": "0000"
     }
 }
