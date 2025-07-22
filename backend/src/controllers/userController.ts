@@ -45,6 +45,7 @@ export const UserController = {
 
         } catch (err) {
             console.error(err);
+            connection.rollback();
             HandleResponse.error(res);
 
         } finally {
@@ -55,10 +56,10 @@ export const UserController = {
     async login(req: Request<{}, {}, Login>, res: Response) {
         try {
             const data = req.body;
-            const result = await LoginUser(data);
+            const token = await LoginUser(data);
 
-            if (result) {
-                HandleResponse.response(200, UserResponses.UserLoggedIn, null, res);
+            if (token) {
+                HandleResponse.response(200, UserResponses.UserLoggedIn, token, res);
             } else {
                 HandleResponse.response(400, UserResponses.InvalidPassword, null, res);
             }

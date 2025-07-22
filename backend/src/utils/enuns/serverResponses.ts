@@ -27,5 +27,8 @@ enum UserResponses {
   LinkUserToCompanyFailed = 'link_user_to_company_failed',
 }
 
+enum CompanyResponses {
+  LinkGenerated = 'link_generated',
+}
 
-export { ServerResponses, UserResponses }
+export { ServerResponses, UserResponses, CompanyResponses }
