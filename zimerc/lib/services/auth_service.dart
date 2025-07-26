@@ -22,8 +22,6 @@ class AuthService {
       headers: {'Content-Type': 'application/json'},
       body: jsonEncode(body),
     );
-
-    print('Resposta da API: ${response.body}');
     
     if (response.statusCode != 201) {
       throw Exception('Erro: ${response.body}');
