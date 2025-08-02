@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'screens/register_user_screen.dart';
+import 'screens/home_controller.dart';
 
 void main() {
   runApp(const MyApp());
@@ -10,9 +10,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Cadastro',
-      theme: ThemeData(primarySwatch: Colors.blue),
-      home: const RegisterUserScreen(),
+      title: 'Meu App',
+      theme: ThemeData(
+        primarySwatch: Colors.green,
+      ),
+      home: const HomeController(),
     );
   }
 }
