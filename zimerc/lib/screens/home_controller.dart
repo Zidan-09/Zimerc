@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import '../screens/home_screen.dart';
-import '../screens/reports_screen.dart';
-import '../screens/sale_screen.dart';
-import '../screens/products_screen.dart';
-import '../widgets/custom_bottom_nav.dart';
+import 'home/home_screen.dart';
+import 'reports/reports_screen.dart';
+import 'sale/sale_screen.dart';
+import 'products/products_screen.dart';
+import '/widgets/custom_bottom_nav.dart';
 
 class HomeController extends StatefulWidget {
   const HomeController({super.key});
