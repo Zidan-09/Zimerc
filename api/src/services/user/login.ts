@@ -15,7 +15,7 @@ export async function LoginUser(data: Login) {
         const result = await Security.compare(data.password, userdata[0].password);
 
         if (result) {
-            const token = Security.sign(userdata[0].user_id);
+            const token = Security.signLogin(userdata[0].user_id, userdata[0].user_type);
             return token;
         }
 

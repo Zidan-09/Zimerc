@@ -6,7 +6,7 @@ export async function GenerateLink(token: string) {
     const { id } = Security.verify(token) as JwtPayload;
     const companyId = await searchCompany(id);
 
-    const tokenLink = Security.sign(companyId);
+    const tokenLink = Security.signLink(companyId);
 
     return `http://teste.com/user/register/token?=${tokenLink}`;
 }

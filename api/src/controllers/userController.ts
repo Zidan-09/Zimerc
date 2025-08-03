@@ -9,6 +9,7 @@ import { RegisterCompany } from '../services/company/registerCompany';
 import { RegisterData } from '../models/register';
 import { changeIdAccount } from '../utils/company/changeIdAccount';
 import { db } from '../database/mysql';
+import { Security } from '../utils/server/security';
 
 export const UserController = {
     async register(req: Request<{}, {}, RegisterData>, res: Response) {
@@ -19,9 +20,9 @@ export const UserController = {
 
             const { user, company } = req.body;
 
-            const userId = await RegisterUser(user, connection);
+            const result = await RegisterUser(user, connection);
 
-            if (!userId) {
+            if (!result?.userId) {
                 throw new Error(UserResponses.UserCreationFailed);
             }
 
@@ -32,7 +33,7 @@ export const UserController = {
                     throw new Error(UserResponses.CompanyCreationFailed)
                 }
 
-                const updated = await changeIdAccount(companyId, userId, connection)
+                const updated = await changeIdAccount(companyId, result.userId, connection)
                 
                 if (!updated) {
                     throw new Error(UserResponses.LinkUserToCompanyFailed)
@@ -41,7 +42,10 @@ export const UserController = {
             }
 
             await connection.commit();
-            return HandleResponse.response(201, UserResponses.UserCreated, null, res);
+            
+            const token = Security.signLogin(result.userId, result.user_type);
+
+            return HandleResponse.response(201, UserResponses.UserCreated, token, res);
 
         } catch (err) {
             console.error(err);

@@ -14,8 +14,12 @@ export const Security = {
         return await bcrypt.compare(password, hash);
     },
 
-    sign(id: number) {
-        return jwt.sign({ id: id }, JWT_SECRET, { expiresIn: EXPIRATION });
+    signLogin(user_id: number, user_type: string) {
+        return jwt.sign({ user_id: user_id, user_type: user_type }, JWT_SECRET, { expiresIn: EXPIRATION });
+    },
+
+    signLink(id: number) {
+        return jwt.sign({id: id}, JWT_SECRET, { expiresIn: EXPIRATION});
     },
 
     verify(token: string) {

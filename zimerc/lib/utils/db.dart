@@ -34,7 +34,7 @@ class LocalDatabase {
     // Cria todas as tabelas
     await db.execute('''
       CREATE TABLE company (
-        company_id INTEGER PRIMARY KEY AUTOINCREMENT,
+        company_id INTEGER PRIMARY KEY,
         name TEXT NOT NULL,
         cnpj TEXT NOT NULL
       )
@@ -42,7 +42,7 @@ class LocalDatabase {
 
     await db.execute('''
       CREATE TABLE user (
-        user_id INTEGER PRIMARY KEY AUTOINCREMENT,
+        user_id INTEGER PRIMARY KEY,
         name TEXT NOT NULL,
         cpf TEXT NOT NULL,
         email TEXT NOT NULL,
