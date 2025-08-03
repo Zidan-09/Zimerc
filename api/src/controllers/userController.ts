@@ -60,13 +60,16 @@ export const UserController = {
     async login(req: Request<{}, {}, Login>, res: Response) {
         try {
             const data = req.body;
-            const token = await LoginUser(data);
+            const result = await LoginUser(data);
 
-            if (token) {
-                HandleResponse.response(200, UserResponses.UserLoggedIn, token, res);
-            } else {
-                HandleResponse.response(400, UserResponses.InvalidPassword, null, res);
+            if (result == UserResponses.InvalidEmail) {
+                return HandleResponse.response(400, UserResponses.InvalidEmail, null, res);
+
+            } else if (result == UserResponses.InvalidPassword) {
+                return HandleResponse.response(400, UserResponses.InvalidPassword, null, res);
             }
+
+            return HandleResponse.response(200, UserResponses.UserLoggedIn, result, res);
 
         } catch (err) {
             console.error(err);

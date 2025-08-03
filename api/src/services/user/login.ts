@@ -4,7 +4,7 @@ import { RowDataPacket } from "mysql2";
 import { UserResponses } from "../../utils/enuns/serverResponses";
 import { Security } from "../../utils/server/security";
 
-export async function LoginUser(data: Login) {
+export async function LoginUser(data: Login): Promise<string|UserResponses|undefined> {
     try {
         const [userdata] = await db.execute<RowDataPacket[]>('SELECT * FROM user WHERE email = ?', [data.email]);
 
@@ -19,7 +19,7 @@ export async function LoginUser(data: Login) {
             return token;
         }
 
-        return undefined
+        return UserResponses.InvalidPassword;
 
     } catch (err) {
         console.error(err);

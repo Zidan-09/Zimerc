@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../../../utils/constants.dart';
+import '../../../../../utils/constants.dart';
 
 class MiniBarChart extends StatelessWidget {
   final List<int> vendasPorDia;

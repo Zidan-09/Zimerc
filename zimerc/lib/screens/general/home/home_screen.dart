@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../../utils/constants.dart';
+import '../../../../utils/constants.dart';
 import 'widgets/mini_bar_chart.dart';
 import 'widgets/last_sell_panel.dart';
 import 'widgets/mini_map_shortcut.dart';

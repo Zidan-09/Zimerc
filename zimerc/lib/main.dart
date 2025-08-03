@@ -1,17 +1,36 @@
 import 'package:flutter/material.dart';
-import 'screens/home_controller.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'screens/general/home_controller.dart';
+import 'screens/welcome_screen.dart';
+import 'screens/user/login/login_screen.dart';
 import 'utils/db.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   await LocalDatabase().database;
-  
+
   runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
+
+  Future<Widget> _decideStartScreen() async {
+    final prefs = await SharedPreferences.getInstance();
+
+    final hasSeenWelcome = prefs.getBool('has_seen_welcome') ?? false;
+    final token = prefs.getString('token');
+
+    if (token != null && token.isNotEmpty) {
+      return const HomeController();
+    } else if (!hasSeenWelcome) {
+      return const WelcomeScreen();
+    } else {
+      return const LoginScreen();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -19,7 +38,18 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.green,
       ),
-      home: const HomeController(),
+      home: FutureBuilder<Widget>(
+        future: _decideStartScreen(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Scaffold(
+              body: Center(child: CircularProgressIndicator()),
+            );
+          } else {
+            return snapshot.data!;
+          }
+        },
+      ),
     );
   }
 }

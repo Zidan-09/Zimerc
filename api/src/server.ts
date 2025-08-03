@@ -1,14 +1,15 @@
 import app from './app';
 import { createServer } from 'http';
-require('dotenv').config;
+require('dotenv').config();
 
-const PORT = process.env.PORT!;
+const HOST = '0.0.0.0'
+const PORT = parseInt(process.env.PORT!);
 
 async function start() {
     const server = createServer(app);
     
-    server.listen(PORT, () => {
-        console.log(`Server open on: http://localhost:${PORT}`);
+    server.listen(PORT, HOST, () => {
+        console.log(`Server open on: http://${HOST}:${PORT}`);
     })
 }
 

@@ -2,15 +2,13 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 class LoginService {
-  final String baseUrl;
-
-  LoginService({required this.baseUrl});
+  LoginService();
 
   Future<Map<String, dynamic>> login({
     required String email,
     required String password,
   }) async {
-    final url = Uri.parse('$baseUrl/login');
+    final url = Uri.parse('http://100.103.165.109:3333/user/login');
 
     final response = await http.post(
       url,
@@ -22,19 +20,17 @@ class LoginService {
     );
 
     if (response.statusCode == 200) {
-      // Resposta OK
       final data = jsonDecode(response.body);
       return {
         'success': true,
-        'token': data['token'],
-        'user_id': data['user_id'],
-        'user_type': data['user_type'],
+        'message': data['message'],
+        'data': data['data']
       };
     } else {
-      // Erro de autenticação ou outro
+      final data = jsonDecode(response.body);
       return {
         'success': false,
-        'message': 'Falha ao fazer login. Verifique suas credenciais.',
+        'message': data['message'],
       };
     }
   }
