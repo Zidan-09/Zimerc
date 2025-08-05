@@ -4,11 +4,13 @@ import 'screens/general/home_controller.dart';
 import 'screens/welcome_screen.dart';
 import 'screens/user/login/login_screen.dart';
 import 'utils/db.dart';
+import 'services/session.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   await LocalDatabase().database;
+  await Session().loadFromPrefs();
 
   runApp(const MyApp());
 }

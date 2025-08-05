@@ -58,7 +58,7 @@ class LocalDatabase {
         product_id INTEGER PRIMARY KEY AUTOINCREMENT,
         id_server INTEGER,
         name TEXT NOT NULL,
-        stock_quantity INTEGER NOT NULL,
+        stock_quantity INTEGER,
         unit_price REAL NOT NULL,
         company_id INTEGER,
         user_id INTEGER,

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-
+import 'package:jwt_decode/jwt_decode.dart';
 import 'services/login_service.dart';
 import '../../general/home_controller.dart';
+import '../../../services/session.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -31,30 +31,53 @@ class _LoginScreenState extends State<LoginScreen> {
       password: _passwordController.text,
     );
 
-    if (!mounted) return; // Protege o uso do context após await
+    if (!mounted) return;
 
     setState(() {
       _isLoading = false;
-      if (result['success'] == true) {
-        _message = 'Login realizado com sucesso!';
-        _saveTokenAndNavigate(result['data']);
-      } else {
-        _message = result['message'] ?? 'Erro desconhecido';
-      }
     });
-  }
 
-  Future<void> _saveTokenAndNavigate(String token) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setString('token', token);
+    if (result['success'] == true) {
+      dynamic data = result['data'];
+      String? token;
+      
+      token = data;
 
-    if (!mounted) return; // Protege o uso do context
+      if (token == null || token.isEmpty) {
+        setState(() {
+          _message = 'Erro: token de autenticação ausente.';
+        });
+        return;
+      }
 
-    Navigator.pushAndRemoveUntil(
-      context,
-      MaterialPageRoute(builder: (_) => const HomeController()),
-      (route) => false,
-    );
+      String? userId;
+      String? userType;
+      try {
+        final payload = Jwt.parseJwt(token);
+        userId = payload['user_id']?.toString();
+        userType = payload['user_type']?.toString();
+      } catch (e) {
+        debugPrint('JWT decode falhou: $e');
+      }
+
+      await Session().setFromLogin(
+        tokenValue: token,
+        userIdValue: userId,
+        userTypeValue: userType,
+      );
+
+      if (!mounted) return;
+
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (_) => const HomeController()),
+        (route) => false,
+      );
+    } else {
+      setState(() {
+        _message = result['message'] ?? 'Erro desconhecido';
+      });
+    }
   }
 
   @override
