@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'home/home_screen.dart';
 import 'reports/reports_screen.dart';
-import 'sale/sale_screen.dart';
+import 'sale/select_itens_screen.dart';
 import 'products/products_screen.dart';
 import '/widgets/custom_bottom_nav.dart';
 
@@ -27,7 +27,7 @@ class _HomeControllerState extends State<HomeController> {
     if (index == 2) {
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => const SaleScreen()),
+        MaterialPageRoute(builder: (context) => SelecionarProdutosPage()),
       );
     } else {
       setState(() {

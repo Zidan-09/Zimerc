@@ -6,7 +6,6 @@ import '../../../../services/product_service.dart';
 import '../../../../services/session.dart';
 
 class AddProductForm extends StatefulWidget {
-  /// Optional callback called após adicionar (antes de fechar o modal)
   final VoidCallback? onAdded;
 
   const AddProductForm({super.key, this.onAdded});
@@ -43,7 +42,6 @@ class _AddProductFormState extends State<AddProductForm> {
 
     try {
       final name = _nameCtrl.text.trim();
-      // Aceita vírgula ou ponto — converte para ponto antes do parse
       final priceText = _priceCtrl.text.trim().replaceAll(',', '.');
       final unitPrice = double.tryParse(priceText) ?? 0.0;
 
@@ -53,13 +51,11 @@ class _AddProductFormState extends State<AddProductForm> {
         stockQuantity = qText.isEmpty ? null : int.tryParse(qText);
       }
 
-      // tenta recuperar user_id (Session salva como String)
       int? userId = _session.userId != null ? int.tryParse(_session.userId!) : null;
 
       final productMap = <String, dynamic>{
         'name': name,
         'unit_price': unitPrice,
-        // só adiciona stock_quantity quando não for ambulant
         if (!_isAmbulant) 'stock_quantity': stockQuantity ?? 0,
         'company_id': null,
         'user_id': userId,
@@ -68,15 +64,12 @@ class _AddProductFormState extends State<AddProductForm> {
 
       await _productService.addProduct(productMap);
 
-      // callback opcional
       widget.onAdded?.call();
 
-      // mostra mensagem de sucesso
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Produto adicionado com sucesso')),
         );
-        // fecha modal e retorna true para quem abriu
         Navigator.of(context).pop(true);
       }
     } catch (e) {
@@ -92,7 +85,6 @@ class _AddProductFormState extends State<AddProductForm> {
 
   @override
   Widget build(BuildContext context) {
-    // Para que o bottom sheet se ajuste ao teclado
     final bottomInset = MediaQuery.of(context).viewInsets.bottom;
 
     return SafeArea(
@@ -157,7 +149,6 @@ class _AddProductFormState extends State<AddProductForm> {
                 ),
                 const SizedBox(height: 12),
 
-                // Quantidade (somente se NÃO for AMBULANT)
                 if (!_isAmbulant) ...[
                   TextFormField(
                     controller: _qtyCtrl,
@@ -191,7 +182,7 @@ class _AddProductFormState extends State<AddProductForm> {
                     ),
                     child: _isLoading
                         ? const SizedBox(height: 18, width: 18, child: CircularProgressIndicator(color: Colors.white, strokeWidth: 2))
-                        : const Text('Adicionar', style: TextStyle(fontWeight: FontWeight.w600)),
+                        : const Text('Adicionar', style: TextStyle(color: Colors.white,fontWeight: FontWeight.w600)),
                   ),
                 ),
               ],

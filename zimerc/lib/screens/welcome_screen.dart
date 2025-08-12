@@ -36,7 +36,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
               const SizedBox(height: 40),
               ElevatedButton(
                 onPressed: () async {
-                  final ctx = context; // captura antes do await
+                  final ctx = context;
                   await _setHasSeenWelcome();
 
                   if (!mounted) return;

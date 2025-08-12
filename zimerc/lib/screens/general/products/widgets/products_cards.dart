@@ -1,4 +1,3 @@
-// lib/screens/general/products/widgets/product_cards.dart
 import 'package:flutter/material.dart';
 import '../../../../utils/constants.dart';
 import 'package:intl/intl.dart';
@@ -8,7 +7,7 @@ class ProductCard extends StatelessWidget {
   final double preco;
   final NumberFormat currencyFormatter;
   final bool selected;
-  final VoidCallback? onTap; // usado para seleção
+  final VoidCallback? onTap;  
 
   const ProductCard({
     super.key,
@@ -21,7 +20,6 @@ class ProductCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Cor do card: vermelho se selecionado, senão cor primária
     final bgColor = selected ? Colors.red : AppColors.primary.withOpacity(0.9);
     final textColor = Colors.white;
 
@@ -36,7 +34,6 @@ class ProductCard extends StatelessWidget {
           padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 16),
           child: Row(
             children: [
-              // Nome do produto
               Expanded(
                 child: Text(
                   nome,
@@ -48,7 +45,6 @@ class ProductCard extends StatelessWidget {
                 ),
               ),
 
-              // Preço formatado
               Text(
                 currencyFormatter.format(preco),
                 style: TextStyle(
@@ -58,7 +54,6 @@ class ProductCard extends StatelessWidget {
                 ),
               ),
 
-              // pequeno check quando selecionado
               if (selected) ...[
                 const SizedBox(width: 12),
                 const Icon(Icons.check_circle, color: Colors.white),

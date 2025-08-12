@@ -76,6 +76,7 @@ class LocalDatabase {
         user_id INTEGER,
         sale_date TEXT NOT NULL,
         total_amount REAL NOT NULL,
+        payment_method TEXT NOT NULL,
         latitude REAL,
         longitude REAL,
         is_synced INTEGER DEFAULT 0,
@@ -100,7 +101,6 @@ class LocalDatabase {
   }
 
   Future<void> _onUpgrade(Database db, int oldVersion, int newVersion) async {
-    // Implementar atualizações futuras de banco aqui
   }
 
   Future close() async {

@@ -1,4 +1,3 @@
-// lib/services/product_service.dart
 import 'package:sqflite/sqflite.dart';
 import '../utils/db.dart';
 
@@ -43,7 +42,6 @@ class ProductService {
     return id;
   }
 
-  /// Deleta produto por product_id
   Future<int> deleteProduct(int productId) async {
     final Database db = await _localDb.database;
     return await db.delete('product', where: 'product_id = ?', whereArgs: [productId]);

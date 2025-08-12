@@ -1,10 +1,13 @@
+// lib/main.dart
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:provider/provider.dart'; // <-- adicione
 import 'screens/general/home_controller.dart';
 import 'screens/welcome_screen.dart';
 import 'screens/user/login/login_screen.dart';
 import 'utils/db.dart';
 import 'services/session.dart';
+import 'providers/cart_provider.dart'; // <-- adicione (caminho conforme seu projeto)
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -12,7 +15,14 @@ void main() async {
   await LocalDatabase().database;
   await Session().loadFromPrefs();
 
-  runApp(const MyApp());
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => CartProvider()),
+      ],
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
